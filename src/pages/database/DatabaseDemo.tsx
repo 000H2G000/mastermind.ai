@@ -1,6 +1,8 @@
 import { Button } from "@/components/ui/button";
 import useAxios from "@/hooks/useAxios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router";
+import { ArrowLeft } from "lucide-react";
 
 interface Item {
   id: number;
@@ -22,6 +24,7 @@ interface User {
 
 const DatabaseDemo = () => {
   const axios = useAxios();
+  const navigate = useNavigate();
   const [items, setItems] = useState<Item[]>([]);
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(false);
@@ -31,8 +34,7 @@ const DatabaseDemo = () => {
     email: "",
     full_name: ""
   });
-
-  const fetchItems = async () => {
+  const fetchItems = useCallback(async () => {
     try {
       setLoading(true);
       const response = await axios.get("/data/items");
@@ -42,9 +44,9 @@ const DatabaseDemo = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [axios]);
 
-  const fetchUsers = async () => {
+  const fetchUsers = useCallback(async () => {
     try {
       setLoading(true);
       const response = await axios.get("/users");
@@ -54,7 +56,7 @@ const DatabaseDemo = () => {
     } finally {
       setLoading(false);
     }
-  };
+  }, [axios]);
 
   const createItem = async () => {
     if (!newItemTitle.trim()) return;
@@ -92,14 +94,25 @@ const DatabaseDemo = () => {
       console.error("Error deleting item:", error);
     }
   };
-
   useEffect(() => {
     fetchItems();
     fetchUsers();
-  }, []);
-
+  }, [fetchItems, fetchUsers]);
   return (
     <div className="p-6 max-w-6xl mx-auto">
+      {/* Return Button */}
+      <div className="mb-6">
+        <Button
+          onClick={() => navigate("/")}
+          variant="ghost"
+          size="sm"
+          className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back to Home
+        </Button>
+      </div>
+
       <h1 className="text-3xl font-bold mb-6">SQLite Database Demo</h1>
       
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">

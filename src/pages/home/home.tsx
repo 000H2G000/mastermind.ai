@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import useAxios from "@/hooks/useAxios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
+import { ArrowLeft } from "lucide-react";
 import logoVite from "../../assets/vite.svg";
 import logoReact from "../../assets/react.svg";
 import logoElectron from "../../assets/electron.svg";
@@ -27,10 +28,23 @@ const HomePage = () => {
       }
     };
     fetchData();
-  }, [refetchData]);
+  }, [refetchData, axios]);
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen py-2 text-center">
+      {/* Return Button */}
+      <div className="absolute top-6 left-6">
+        <Button
+          onClick={() => navigate("/")}
+          variant="ghost"
+          size="sm"
+          className="text-gray-600 dark:text-gray-400 hover:text-gray-800 dark:hover:text-white"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back to Home
+        </Button>
+      </div>
+
       <div className="flex justify-center gap-8">
         <img src={logoElectron} className="w-24 h-24" alt="Electron" />
         <img src={logoReact} className="w-24 h-24" alt="React" />

@@ -6,12 +6,18 @@ import { Send, Sparkles, Database, Code, Zap } from "lucide-react";
 const LandingPage = () => {
   const navigate = useNavigate();
   const [message, setMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSendMessage = () => {
     if (message.trim()) {
-      // Here you can handle the message submission
-      console.log("Message:", message);
-      setMessage("");
+      setIsLoading(true);
+      
+      // Simulate API call with loading state
+      setTimeout(() => {
+        setIsLoading(false);
+        // Navigate to mastermind app with the idea
+        navigate("/mastermind", { state: { idea: message } });
+      }, 2000);
     }
   };
 
@@ -52,13 +58,15 @@ const LandingPage = () => {
             <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
               ElectronStack
             </span>
-          </div>
-          <div className="hidden md:flex space-x-6">
+          </div>          <div className="hidden md:flex space-x-6">
             <Button variant="ghost" onClick={() => navigate("/home")}>
               Home
             </Button>
             <Button variant="ghost" onClick={() => navigate("/database")}>
               Database
+            </Button>
+            <Button variant="ghost" onClick={() => navigate("/mastermind")}>
+              Mastermind.ai
             </Button>
             <Button variant="outline">
               Documentation
@@ -98,10 +106,9 @@ const LandingPage = () => {
             <div className="flex items-end space-x-4">
               <div className="flex-1">
                 <textarea
-                  value={message}
-                  onChange={(e) => setMessage(e.target.value)}
+                  value={message}                  onChange={(e) => setMessage(e.target.value)}
                   onKeyPress={handleKeyPress}
-                  placeholder="Ask me anything about this template..."
+                  placeholder="Describe your business idea... (e.g., AI-powered gym coach app)"
                   className="w-full resize-none border-0 bg-transparent text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-0 text-lg leading-relaxed max-h-32"
                   rows={1}
                   style={{
@@ -114,19 +121,21 @@ const LandingPage = () => {
                     target.style.height = target.scrollHeight + "px";
                   }}
                 />
-              </div>
-              <Button
+              </div>              <Button
                 onClick={handleSendMessage}
-                disabled={!message.trim()}
+                disabled={!message.trim() || isLoading}
                 size="sm"
                 className="bg-blue-600 hover:bg-blue-700 dark:bg-blue-600 dark:hover:bg-blue-700 text-white rounded-xl px-3 py-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <Send className="w-4 h-4" />
+                {isLoading ? (
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                ) : (
+                  <Send className="w-4 h-4" />
+                )}
               </Button>
             </div>
-          </div>
-          <p className="text-xs text-slate-500 dark:text-slate-400 text-center mt-2">
-            Press Enter to send, Shift + Enter for new line
+          </div>          <p className="text-xs text-slate-500 dark:text-slate-400 text-center mt-2">
+            {isLoading ? "Generating mind map..." : "Press Enter to send, Shift + Enter for new line"}
           </p>
         </div>
 
@@ -150,24 +159,22 @@ const LandingPage = () => {
               </p>
             </div>
           ))}
-        </div>
-
-        {/* Call to Action */}
+        </div>        {/* Call to Action */}
         <div className="flex flex-col sm:flex-row gap-4 items-center">
           <Button
             size="lg"
-            onClick={() => navigate("/home")}
+            onClick={() => navigate("/mastermind")}
             className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white px-8 py-3 rounded-xl font-medium transition-all duration-200 shadow-lg hover:shadow-xl"
           >
-            Get Started
+            Try Mastermind.ai
           </Button>
           <Button
             size="lg"
             variant="outline"
-            onClick={() => navigate("/database")}
+            onClick={() => navigate("/home")}
             className="border-slate-300 dark:border-slate-600 hover:bg-slate-50 dark:hover:bg-slate-800 px-8 py-3 rounded-xl font-medium transition-all duration-200"
           >
-            View Database Demo
+            View Template Demo
           </Button>
         </div>
       </main>
