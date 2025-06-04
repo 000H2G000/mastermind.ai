@@ -1,0 +1,166 @@
+{
+  "info": {
+    "name": "Mastermind AI - n8n Mind Map API",
+    "description": "Test collection for n8n mind map generation workflow",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "AI Business Idea",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"idea\": \"AI-powered fitness coach app that uses machine learning to create personalized workout plans\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5678/webhook/mindmap",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5678",
+          "path": [
+            "webhook",
+            "mindmap"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "E-commerce Business Idea",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"idea\": \"Online marketplace for handmade crafts and artisan products\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5678/webhook/mindmap",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5678",
+          "path": [
+            "webhook",
+            "mindmap"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "SaaS Business Idea",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"idea\": \"SaaS platform for project management and team collaboration\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5678/webhook/mindmap",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5678",
+          "path": [
+            "webhook",
+            "mindmap"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Mobile App Business Idea",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"idea\": \"Mobile app for food delivery and restaurant ordering\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5678/webhook/mindmap",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5678",
+          "path": [
+            "webhook",
+            "mindmap"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Default Template Test",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json",
+            "type": "text"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"idea\": \"Organic farm-to-table restaurant chain\"\n}"
+        },
+        "url": {
+          "raw": "http://localhost:5678/webhook/mindmap",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "5678",
+          "path": [
+            "webhook",
+            "mindmap"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:5678",
+      "type": "string"
+    }
+  ]
+}

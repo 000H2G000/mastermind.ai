@@ -1,0 +1,105 @@
+{
+  "name": "Mastermind AI Mind Map Generator",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "mindmap",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-node",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [
+        240,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Extract the business idea from the webhook payload\nconst idea = $input.first().json.idea || 'Business Idea';\n\n// Define mind map templates based on idea keywords\nconst templates = {\n  'ai': {\n    categories: ['Technology Stack', 'Target Market', 'Revenue Model', 'Competitive Analysis', 'Development Roadmap'],\n    details: {\n      'Technology Stack': ['Machine Learning', 'Cloud Infrastructure', 'API Development', 'Data Processing'],\n      'Target Market': ['Enterprise Clients', 'Individual Users', 'Developers', 'Small Businesses'],\n      'Revenue Model': ['Subscription', 'API Usage', 'Enterprise Licensing', 'Freemium'],\n      'Competitive Analysis': ['Market Leaders', 'Pricing Strategy', 'Unique Value Prop', 'Market Gaps'],\n      'Development Roadmap': ['MVP Features', 'Beta Testing', 'Scale Phase', 'Market Launch']\n    }\n  },\n  'ecommerce': {\n    categories: ['Product Strategy', 'Marketing Channels', 'Operations', 'Technology', 'Financial Planning'],\n    details: {\n      'Product Strategy': ['Product Catalog', 'Pricing Strategy', 'Inventory Management', 'Quality Control'],\n      'Marketing Channels': ['Social Media', 'SEO/SEM', 'Email Marketing', 'Influencer Partners'],\n      'Operations': ['Supply Chain', 'Fulfillment', 'Customer Service', 'Returns Policy'],\n      'Technology': ['E-commerce Platform', 'Payment Processing', 'Analytics', 'Mobile App'],\n      'Financial Planning': ['Startup Costs', 'Revenue Projections', 'Break-even Analysis', 'Funding Strategy']\n    }\n  },\n  'app': {\n    categories: ['User Experience', 'Technical Architecture', 'Monetization', 'Growth Strategy', 'Market Research'],\n    details: {\n      'User Experience': ['UI/UX Design', 'User Onboarding', 'Core Features', 'Accessibility'],\n      'Technical Architecture': ['Frontend Framework', 'Backend Services', 'Database Design', 'Security'],\n      'Monetization': ['In-App Purchases', 'Advertising', 'Premium Features', 'Subscription Model'],\n      'Growth Strategy': ['User Acquisition', 'Retention Tactics', 'Viral Features', 'Community Building'],\n      'Market Research': ['Target Demographics', 'Competitor Analysis', 'Market Size', 'User Feedback']\n    }\n  },\n  'saas': {\n    categories: ['Product Development', 'Customer Acquisition', 'Technical Infrastructure', 'Business Model', 'Scaling Strategy'],\n    details: {\n      'Product Development': ['Core Features', 'User Interface', 'API Design', 'Integration Capabilities'],\n      'Customer Acquisition': ['Content Marketing', 'Trial Strategy', 'Sales Funnel', 'Customer Success'],\n      'Technical Infrastructure': ['Cloud Architecture', 'Security & Compliance', 'Performance Optimization', 'Data Analytics'],\n      'Business Model': ['Pricing Tiers', 'Customer Segments', 'Value Proposition', 'Revenue Streams'],\n      'Scaling Strategy': ['Team Building', 'Process Automation', 'Market Expansion', 'Feature Roadmap']\n    }\n  },\n  'default': {\n    categories: ['Market Analysis', 'Business Model', 'Operations', 'Marketing Strategy', 'Financial Planning'],\n    details: {\n      'Market Analysis': ['Target Audience', 'Market Size', 'Competition', 'Trends & Opportunities'],\n      'Business Model': ['Revenue Streams', 'Cost Structure', 'Value Proposition', 'Key Partnerships'],\n      'Operations': ['Supply Chain', 'Production Process', 'Quality Control', 'Logistics'],\n      'Marketing Strategy': ['Brand Positioning', 'Digital Marketing', 'Customer Acquisition', 'Retention Strategy'],\n      'Financial Planning': ['Startup Costs', 'Revenue Projections', 'Break-even Analysis', 'Funding Requirements']\n    }\n  }\n};\n\n// Determine which template to use based on keywords in the idea\nfunction selectTemplate(idea) {\n  const lowerIdea = idea.toLowerCase();\n  \n  if (lowerIdea.includes('ai') || lowerIdea.includes('artificial intelligence') || lowerIdea.includes('machine learning') || lowerIdea.includes('ml')) {\n    return templates.ai;\n  }\n  if (lowerIdea.includes('ecommerce') || lowerIdea.includes('e-commerce') || lowerIdea.includes('online store') || lowerIdea.includes('marketplace')) {\n    return templates.ecommerce;\n  }\n  if (lowerIdea.includes('app') || lowerIdea.includes('mobile') || lowerIdea.includes('ios') || lowerIdea.includes('android')) {\n    return templates.app;\n  }\n  if (lowerIdea.includes('saas') || lowerIdea.includes('software as a service') || lowerIdea.includes('platform') || lowerIdea.includes('dashboard')) {\n    return templates.saas;\n  }\n  \n  return templates.default;\n}\n\n// Generate mind map structure\nfunction generateMindMap(idea) {\n  const template = selectTemplate(idea);\n  let nodeId = 1;\n  \n  const nodes = template.categories.map((category, index) => {\n    const categoryNode = {\n      id: nodeId++,\n      title: category,\n      children: []\n    };\n    \n    // Add children nodes for this category\n    if (template.details[category]) {\n      categoryNode.children = template.details[category].map(detail => ({\n        id: nodeId++,\n        title: detail,\n        children: []\n      }));\n    }\n    \n    return categoryNode;\n  });\n  \n  return {\n    idea: idea,\n    nodes: nodes\n  };\n}\n\n// Generate the mind map\nconst mindMap = generateMindMap(idea);\n\n// Return the structured response\nreturn [{\n  json: mindMap\n}];"
+      },
+      "id": "code-node",
+      "name": "Generate Mind Map",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        460,
+        300
+      ]
+    },    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              },
+              {
+                "name": "Access-Control-Allow-Methods",
+                "value": "POST, GET, OPTIONS"
+              },
+              {
+                "name": "Access-Control-Allow-Headers",
+                "value": "Content-Type"
+              }
+            ]
+          }
+        }
+      },
+      "id": "response-node",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [
+        680,
+        300
+      ]
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Generate Mind Map",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Mind Map": {
+      "main": [
+        [
+          {
+            "node": "Webhook Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },    
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "your-instance-id"
+  },
+  "id": "mastermind-workflow",
+  "tags": []
+}

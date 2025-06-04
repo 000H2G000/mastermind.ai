@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Request, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from app.config.config import SECRET_KEY, ALLOWED_ORIGINS
-from app.api import root, data, users
+from app.api import root, data, users, mindmaps
 from app.models import create_tables
 
 app = FastAPI()
@@ -30,3 +30,4 @@ async def verify_secret_header(request: Request, call_next):
 app.include_router(root.router)
 app.include_router(data.router, prefix="/data")
 app.include_router(users.router, prefix="/users")
+app.include_router(mindmaps.router, prefix="/mindmaps", tags=["mindmaps"])

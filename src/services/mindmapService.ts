@@ -48,7 +48,7 @@ const mockMindMap: MindMap = {
 };
 
 class MindMapService {
-  private n8nApiUrl = "http://localhost:5678/webhook/mindmap";
+  private n8nApiUrl = "http://localhost:5678/webhook-test/mindmap";
   private timeout = 10000; // 10 seconds timeout
 
   /**

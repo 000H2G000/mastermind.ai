@@ -3,7 +3,8 @@ asgiref==3.8.1
 click==8.1.8
 colorama==0.4.6
 fastapi==0.68.1
-h11==0.14.0
+h11==0.16.0
+httpx==0.28.1
 importlib-metadata==8.5.0
 packaging==25.0
 pefile==2023.2.7

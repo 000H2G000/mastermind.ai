@@ -1,0 +1,88 @@
+{
+  "name": "Debug Mastermind AI Mind Map Generator",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "mindmap-debug",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-node",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "// Debug: Log the input data structure\nconsole.log('Input data:', JSON.stringify($input.first().json, null, 2));\n\n// Extract the business idea from the webhook payload\nconst inputData = $input.first().json;\nconst idea = inputData.body?.idea || inputData.idea || 'Default Business Idea';\n\nconsole.log('Extracted idea:', idea);\n\n// Simple response for testing\nconst response = {\n  idea: idea,\n  debug: {\n    inputKeys: Object.keys(inputData),\n    hasBody: !!inputData.body,\n    bodyKeys: inputData.body ? Object.keys(inputData.body) : [],\n    rawIdea: inputData.idea,\n    bodyIdea: inputData.body?.idea\n  },\n  nodes: [\n    {\n      id: 1,\n      title: 'Technology Stack',\n      children: [\n        { id: 2, title: 'Frontend', children: [] },\n        { id: 3, title: 'Backend', children: [] }\n      ]\n    },\n    {\n      id: 4,\n      title: 'Market Analysis',\n      children: [\n        { id: 5, title: 'Target Audience', children: [] },\n        { id: 6, title: 'Competitors', children: [] }\n      ]\n    }\n  ]\n};\n\nconsole.log('Response:', JSON.stringify(response, null, 2));\n\nreturn [{ json: response }];"
+      },
+      "id": "code-node",
+      "name": "Generate Debug Response",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ $json }}",
+        "options": {
+          "responseHeaders": {
+            "entries": [
+              {
+                "name": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "name": "Access-Control-Allow-Origin",
+                "value": "*"
+              }
+            ]
+          }
+        }
+      },
+      "id": "response-node",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [680, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Generate Debug Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Debug Response": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "debug-instance-id"
+  },
+  "id": "mastermind-debug-workflow",
+  "tags": []
+}
