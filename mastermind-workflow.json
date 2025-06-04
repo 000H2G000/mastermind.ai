@@ -83,7 +83,7 @@
       "main": [
         [
           {
-            "node": "Webhook Response",
+            "node": "Respond to Webhook",
             "type": "main",
             "index": 0
           }
@@ -94,7 +94,7 @@
   "active": false,
   "settings": {
     "executionOrder": "v1"
-  },    
+  },
   "versionId": "1",
   "meta": {
     "templateCredsSetupCompleted": true,
